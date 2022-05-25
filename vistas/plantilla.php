@@ -67,6 +67,8 @@ session_start();
 
   <!-- SweetAlert 2 -->
   <script src="vistas/plugins/sweetalert2/sweetalert2.all.js"></script>
+
+
     
 </head>
 
@@ -142,8 +144,8 @@ FOOTER
 
 ?>
 
-<script scr="vistas/js/plantilla.js"></script>
-<script scr="vistas/js/usuarios.js"></script>
 
+<script src="vistas/js/plantilla.js"></script>
+<script src="vistas/js/usuarios.js"></script>
 </body>
 </html>
