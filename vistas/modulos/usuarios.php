@@ -67,37 +67,47 @@
                  foreach ($usuarios as $key => $value){
 
                    echo '<tr>
-
-                   <td>'.$value["id"].'</td>
-                   <td>'.$value["nombre"].'</td>
-                   <td>'.$value["usuario"].'</td>';
-
-                    if($value["foto"] != ""){
-
-                       echo '<td><img src="'.$value["foto"].'" class="img-thumbnail" width="40px"></td>';
-
-                    }else{
-
-                       echo '<td><img src="vistas/img/usuarios/login.png" class="img-thumbnail" width="40px"></td>';
-
-                    } 
+                         <td>1</td>
+                         <td>'.$value["nombre"].'</td>
+                         <td>'.$value["usuario"].'</td>';
                    
-                   echo '<td>'.$value["rol"].'</td>
-                   <td><button class="btn btn-success btn-xs">Activado</button></td>
-                   <td>'.$value["ultimo_login"].'</td>
-                   <td>
+                         if($value["foto"] != ""){
 
-                     <div class="btn-group">
+                            echo '<td><img src="'.$value["foto"].'" class="img-thumbnail" width="40px"></td>';
 
-                     <button class="btn btn-warning btnEditarUsuario" idUsuario="'.$value["id"].'" data-toggle="modal" data-target="#modalEditarUsuario"><i class="fa fa-pencil"></i></button>
-                       
-                     <button class="btn btn-danger"><i class="fa fa-times"></i></button>    
-                          
-                     </div>
+                         }else{
 
-                   </td>
+                            echo '<td><img src="vistas/img/usuarios/default/login.png" class="img-thumbnail" width="40px"></td>';
 
-                 </tr>';
+                         } 
+                   
+                            echo '<td>'.$value["rol"].'</td>';
+
+                            if($value["estado"] != 0){
+
+                               echo '<td><button class="btn btn-success btn-xs btnActivar" idUsuario="'.$value["id"].'" estadoUsuario="0">Activado</button></td>';
+
+                            }else{
+
+                               echo '<td><button class="btn btn-danger btn-xs btnActivar" idUsuario="'.$value["id"].'" estadoUsuario="1">Desactivado</button></td>';
+
+                            }
+                   
+                  
+                              echo '<td>'.$value["ultimo_login"].'</td>
+                              <td>
+
+                                 <div class="btn-group">
+
+                                 <button class="btn btn-warning btnEditarUsuario" idUsuario="'.$value["id"].'" data-toggle="modal" data-target="#modalEditarUsuario"><i class="fa fa-pencil"></i></button>
+                                 
+                                 <button class="btn btn-danger btnEliminarUsuario" idUsuario="'.$value["id"].'" fotoUsuario="'.$value["foto"].'" usuario="'.$value["usuario"].'"><i class="fa fa-times"></i></button>    
+                                    
+                                 </div>
+
+                              </td>
+
+                              </tr>';
 
                  }
 
@@ -169,7 +179,7 @@ CUERPO DEL MODAL
 
                   <span class="input-group-addon"><i class="fa fa-key"></i></span>
 
-                   <input type="text" class="form-control input-lg" name="nuevoUsuario" placeholder="Ingresar usuario" required>  
+                   <input type="text" class="form-control input-lg" name="nuevoUsuario" placeholder="Ingresar usuario" id="nuevoUsuario" required>  
 
                </div>
 
@@ -200,7 +210,6 @@ CUERPO DEL MODAL
                    <select class="form-control input-lg" name="nuevoRol">
 
                       <option value="">Seleccionar perfil</option>
-                      <option value="Administrador">Administrador</option>
                       <option value="Coordinador">Coordinador</option>
                       <option value="Profesor">Profesor</option>
                       <option value="Alumno">Alumno</option>
@@ -221,7 +230,7 @@ CUERPO DEL MODAL
 
                <p class="help-block">Peso máximo de la foto 2MB</p>
 
-               <img src="vistas/img/usuarios/login.png" class="img-thumbnail previsualizar" width="100px">
+               <img src="vistas/img/usuarios/default/login.png" class="img-thumbnail previsualizar" width="100px">
 
             </div>
 
@@ -310,7 +319,7 @@ CUERPO DEL MODAL
 
                   <span class="input-group-addon"><i class="fa fa-key"></i></span>
 
-                   <input type="text" class="form-control input-lg" id="editarUsuario" name="editarUsuario" value="" required>  
+                   <input type="text" class="form-control input-lg" id="editarUsuario" name="editarUsuario" value="" readonly>  
 
                </div>
 
@@ -324,7 +333,9 @@ CUERPO DEL MODAL
 
                   <span class="input-group-addon"><i class="fa fa-lock"></i></span>
 
-                   <input type="password" class="form-control input-lg" name="editarPassword" placeholder="Escriba el nuevo password" required>  
+                  <input type="password" class="form-control input-lg" name="editarPassword" placeholder="Escriba el nuevo password">  
+
+                  <input type="hidden" id="passwordActual" name="passwordActual"> 
 
                </div>
 
@@ -341,7 +352,6 @@ CUERPO DEL MODAL
                    <select class="form-control input-lg" name="editarRol">
 
                       <option value="" id="editarRol"></option>
-                      <option value="Administrador">Administrador</option>
                       <option value="Coordinador">Coordinador</option>
                       <option value="Profesor">Profesor</option>
                       <option value="Alumno">Alumno</option>
@@ -362,7 +372,9 @@ CUERPO DEL MODAL
 
                <p class="help-block">Peso máximo de la foto 2MB</p>
 
-               <img src="vistas/img/usuarios/login.png" class="img-thumbnail previsualizar" width="100px">
+               <img src="vistas/img/usuarios/default/login.png" class="img-thumbnail previsualizar" width="100px">
+
+               <input type="hidden" name="fotoActual" id="fotoActual">
 
             </div>
 
@@ -384,9 +396,9 @@ PIE DEL MODAL
 
       <?php
         
-          $crearUsuario = new ControladorUsuarios();
+          $editarUsuario = new ControladorUsuarios();
 
-          $crearUsuario -> ctrCrearUsuario();
+          $editarUsuario -> ctrEditarUsuario();
 
       ?>
 </form>
@@ -396,3 +408,10 @@ PIE DEL MODAL
   </div>
 
 </div>
+
+<?php
+
+    $borrarUsuario = new ControladorUsuarios();
+    $borrarUsuario -> ctrBorrarUsuario();
+
+?>

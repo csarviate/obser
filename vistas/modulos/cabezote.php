@@ -53,7 +53,7 @@ BARRA DE NAVEGACION
 
                  }else{
 
-                    echo '<img src="vistas/img/usuarios/login.png" class="user-image">';
+                    echo '<img src="vistas/img/usuarios/default/login.png" class="user-image">';
 
                  }
 

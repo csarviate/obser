@@ -28,6 +28,18 @@
 
             </li>
 
+            <li>
+                 
+                <a href="Cursos">
+                    
+                    <i class="fa fa-window-restore"></i>
+
+                    <span>Cursos</span>
+                
+                </a>
+
+            </li>
+
             <li class="treeview">
                  
                 <a href="#">
